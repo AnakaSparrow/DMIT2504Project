@@ -27,6 +27,7 @@ class _SearchListState extends State<SearchList> {
 
   void getOrCreateDb() async {
     await databaseService.getOrCreateDatabaseHandle();
+    
     favouriteList = await databaseService.getAllFavouritesFromDb();
     await databaseService.printAllFavouritesInDbToConsole();
     setState(() {});
@@ -84,23 +85,3 @@ class _SearchListState extends State<SearchList> {
     }
   }
 }
-/**
- *         return CardAction(
-          actions: <CardActionButton>[
-            CardActionButton(
-              icon: Icon(
-                Icons.favorite
-                color: Colors.blue ,)
-            )
-          ],
-          child: Card(
-          child: ListTile(
-            subtitle: 
-              Text('Name: ${rates[index].name}'),
-            trailing: 
-              Text('Rate: \$${rates[index].price} '),
-          ),
-        )
-      );
- * 
- */

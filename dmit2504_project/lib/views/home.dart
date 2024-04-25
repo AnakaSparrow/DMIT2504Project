@@ -1,8 +1,11 @@
 // ignore_for_file: todo, avoid_print, use_key_in_widget_constructors, avoid_function_literals_in_foreach_calls, use_build_context_synchronously, unused_local_variable
 
+//import 'dart:js_interop_unsafe';
+
 import 'package:flutter/material.dart';
 import 'dart:async';
 import '../models/search-list.dart';
+import '../models/favourite-list.dart';
 import '../models/rate.dart';
 import '../services/rate-service.dart';
 import '../services/db-service.dart';
@@ -17,6 +20,8 @@ class HomeViewState extends State<HomeView> {
   final RateService rateService = RateService();
   final SQFliteDbService databaseService = SQFliteDbService();
   var rateList = <Rate>[];
+  var historyList = <Rate>[];
+
   String rateName = "";
 
   @override
@@ -26,9 +31,12 @@ class HomeViewState extends State<HomeView> {
   }
 
   void getOrCreateDbAndDisplayAllRatesInDb() async {
+    await databaseService.deleteDbSearch();
     await databaseService.getOrCreateDatabaseHandle();
     rateList = await databaseService.getAllRatesFromDb();
     await databaseService.printAllRatesInDbToConsole();
+    historyList = await databaseService.getAllHistoryFromDb();
+
     setState(() {});
   }
 
@@ -40,7 +48,9 @@ class HomeViewState extends State<HomeView> {
         backgroundColor: const Color.fromARGB(255, 1, 108, 111),
         ),
       body: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.start,
+        //crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisSize: MainAxisSize.max,
         children: [
           ElevatedButton(
             child: const Text(
@@ -49,17 +59,17 @@ class HomeViewState extends State<HomeView> {
             onPressed: () async {
               await databaseService.getOrCreateDatabaseHandle();
               rateList = await databaseService.getAllRatesFromDb();
+              historyList = await databaseService.getAllHistoryFromDb();
               await databaseService.printAllRatesInDbToConsole();
+
               setState(() {});
               searchRate();
             },
           ),
-          //We must use an Expanded widget to get
-          //the dynamic ListView to play nice
-          //with the TextButton.
           Expanded(
-            child: SearchList(rates: rateList),
+            child: SearchList(rates: rateList)
           ),
+          //FavouriteList(rates: historyList),
           ElevatedButton(
             child: const Text('Favourites Page',
             style: TextStyle(fontSize: 30.0),
@@ -110,8 +120,12 @@ class HomeViewState extends State<HomeView> {
                             Rate
                             ( name: name, price: price,
                             ));
-                          
+                          await databaseService.insertHistory(
+                            Rate
+                            ( name: name, price: price,
+                            ));
                           List<Rate> rateList = await databaseService.getAllRatesFromDb();
+
                           print("search list: $rateList");
                           await databaseService.printAllRatesInDbToConsole();
                       }
