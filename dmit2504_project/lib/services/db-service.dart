@@ -17,6 +17,9 @@ class SQFliteDbService {
           await db1.execute(
             "CREATE TABLE rates(name TEXT PRIMARY KEY, price TEXT)",
           );
+          await db1.execute(
+            "CREATE TABLE favourites(name TEXT PRIMARY KEY, price TEXT)",
+          );
         },
         version: 1,
       );
@@ -25,6 +28,7 @@ class SQFliteDbService {
       print('SQFliteDbService getOrCreateDatabaseHandle: $e');
     }
   }
+  
  Future<void> printAllRatesInDbToConsole() async {
     try {
       List<Rate> listOfRates = await getAllRatesFromDb();
@@ -59,7 +63,7 @@ class SQFliteDbService {
     try {
       // Query the table for all The Rates.
       //The .query will return a list with each item in the list being a map.
-      final List<Map<String, dynamic>> rateMap = await db.query('rates');
+      final List<Map<String, dynamic>> rateMap = await db.query('favourites');
       // Convert the List<Map<String, dynamic> into a List<Rate>.
       return List.generate(rateMap.length, (i) {
         return Rate(
@@ -110,6 +114,25 @@ class SQFliteDbService {
       print("insert rate TRY");
       await db.insert(
         'rates',
+        rate.toMap(),
+        conflictAlgorithm: sqflitePackage.ConflictAlgorithm.replace,
+      );
+    } catch (e) {
+      print('SQFliteDbService insertRate: $e');
+    }
+  }
+
+    Future<void> insertFavourite(Rate rate) async {
+    try {
+      //TODO: 
+      //Put code here to insert a stock into the database.
+      //Insert the Stock into the correct table. 
+      //Also specify the conflictAlgorithm. 
+      //In this case, if the same stock is inserted
+      //multiple times, it replaces the previous data.
+      print("insert favourite TRY");
+      await db.insert(
+        'favourites',
         rate.toMap(),
         conflictAlgorithm: sqflitePackage.ConflictAlgorithm.replace,
       );

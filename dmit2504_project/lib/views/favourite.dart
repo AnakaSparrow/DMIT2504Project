@@ -31,7 +31,9 @@ class FavouriteViewState extends State<FavouriteView> {
 
   @override
   Widget build(BuildContext context){
-    return Scaffold(
+    return MaterialApp(
+      home: 
+       Scaffold(
         //default route
         backgroundColor: const Color.fromARGB(255, 220, 227, 232),
         appBar: AppBar(
@@ -39,8 +41,8 @@ class FavouriteViewState extends State<FavouriteView> {
           backgroundColor: const Color.fromARGB(255, 1, 108, 111),
         ),
         body: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          mainAxisSize: MainAxisSize.max,
+          //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          //mainAxisSize: MainAxisSize.max,
           children: <Widget>[
             const Text('Favourites', 
                   style:  TextStyle(
@@ -51,7 +53,8 @@ class FavouriteViewState extends State<FavouriteView> {
                 FavouriteList(rates: favouriteList),
           ],
         ),
-      );
-  }
+      )
+    );
+    }
 }
 

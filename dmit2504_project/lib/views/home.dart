@@ -47,7 +47,6 @@ class HomeViewState extends State<HomeView> {
               'Find Rate',
             ),
             onPressed: () async {
-              await databaseService.deleteDb();
               await databaseService.getOrCreateDatabaseHandle();
               rateList = await databaseService.getAllRatesFromDb();
               await databaseService.printAllRatesInDbToConsole();
@@ -118,7 +117,7 @@ class HomeViewState extends State<HomeView> {
                       }
                       setState(() {});
                     } catch (e) {
-                      print('HomeView inputRate catch: $e');
+                      print('HomeView searchRate catch: $e');
                     }
                   }
                   rateName = "";
