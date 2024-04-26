@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import './rate.dart';
 import 'package:card_actions/card_action_button.dart';
 import 'package:card_actions/card_actions.dart';
+import '../services/db-service.dart';
+
 
 class FavouriteList extends StatefulWidget {
   const FavouriteList({super.key, required this.rates});
@@ -30,8 +32,9 @@ class _FavouriteListState extends State<FavouriteList> {
             actions: <CardActionButton>[
             CardActionButton(
               label: '',
-              icon: Icon(
-                Icons.star_border_outlined),
+              icon: const Icon(
+                Icons.star,
+                color: Colors.blue ),
                 onPress:() {setState(() {});},
             )
           ],
@@ -45,6 +48,7 @@ class _FavouriteListState extends State<FavouriteList> {
         )
       );
       },
+      shrinkWrap: true,
     );
   }
 }

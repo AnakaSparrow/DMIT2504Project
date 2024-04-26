@@ -66,10 +66,7 @@ class SQFliteDbService {
   }
   Future<List<Rate>> getAllFavouritesFromDb() async{
     try {
-      // Query the table for all The Rates.
-      //The .query will return a list with each item in the list being a map.
       final List<Map<String, dynamic>> rateMap = await db.query('favourites');
-      // Convert the List<Map<String, dynamic> into a List<Rate>.
       return List.generate(rateMap.length, (i) {
         return Rate(
           name: rateMap[i]['name'],
@@ -83,10 +80,7 @@ class SQFliteDbService {
   }
   Future<List<Rate>> getAllRatesFromDb() async {
     try {
-      // Query the table for all The Rates.
-      //The .query will return a list with each item in the list being a map.
       final List<Map<String, dynamic>> rateMap = await db.query('rates');
-      // Convert the List<Map<String, dynamic> into a List<Rate>.
       return List.generate(rateMap.length, (i) {
         return Rate(
           name: rateMap[i]['name'],
@@ -115,10 +109,7 @@ class SQFliteDbService {
   }
   Future<List<Rate>> getAllHistoryFromDb() async{
     try {
-      // Query the table for all The Rates.
-      //The .query will return a list with each item in the list being a map.
       final List<Map<String, dynamic>> rateMap = await db.query('history');
-      // Convert the List<Map<String, dynamic> into a List<Rate>.
       return List.generate(rateMap.length, (i) {
         return Rate(
           name: rateMap[i]['name'],
@@ -132,7 +123,6 @@ class SQFliteDbService {
   }
   Future<void> deleteDbSearch() async {
     try {
-      //await sqflitePackage.deleteDatabase(path);
       await db.execute("DROP TABLE IF EXISTS rates");
       print('Db deleted');
     } catch (e) {
@@ -190,13 +180,10 @@ class SQFliteDbService {
     }
   }
 
-  Future<void> deleteRate(Rate rate) async {
+  Future<void> deleteRate() async {
     try {
-      await db.delete(
-        'rates',
-        where: "title = ?",
-        whereArgs: [rate.name]
-      );
+      await sqflitePackage.deleteDatabase(path);
+      print('Db deleted');
     } catch (e) {
       print('SQFliteDbService deleteStock: $e');
     }

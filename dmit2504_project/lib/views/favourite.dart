@@ -40,9 +40,7 @@ class FavouriteViewState extends State<FavouriteView> {
           title: const Text("Currency Exchange", style: TextStyle(color:  Color.fromARGB(255, 216, 231, 243)),),
           backgroundColor: const Color.fromARGB(255, 1, 108, 111),
         ),
-        body: Row(
-          //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          //mainAxisSize: MainAxisSize.max,
+        body: Column(
           children: <Widget>[
             const Text('Favourites', 
                   style:  TextStyle(
@@ -50,7 +48,8 @@ class FavouriteViewState extends State<FavouriteView> {
                       fontSize: 25
                     )
                 ),          
-                FavouriteList(rates: favouriteList),
+                Expanded(
+                  child: FavouriteList(rates: favouriteList)),
           ],
         ),
       )

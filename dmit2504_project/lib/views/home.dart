@@ -5,7 +5,7 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 import '../models/search-list.dart';
-import '../models/favourite-list.dart';
+import '../models/history-list.dart';
 import '../models/rate.dart';
 import '../services/rate-service.dart';
 import '../services/db-service.dart';
@@ -21,6 +21,7 @@ class HomeViewState extends State<HomeView> {
   final SQFliteDbService databaseService = SQFliteDbService();
   var rateList = <Rate>[];
   var historyList = <Rate>[];
+  var favouriteList = <Rate>[];
 
   String rateName = "";
 
@@ -31,11 +32,14 @@ class HomeViewState extends State<HomeView> {
   }
 
   void getOrCreateDbAndDisplayAllRatesInDb() async {
-    await databaseService.deleteDbSearch();
+    await databaseService.deleteRate();
     await databaseService.getOrCreateDatabaseHandle();
     rateList = await databaseService.getAllRatesFromDb();
     await databaseService.printAllRatesInDbToConsole();
+    await databaseService.printAllHistoryInDbToConsole();
     historyList = await databaseService.getAllHistoryFromDb();
+    await databaseService.printAllFavouritesInDbToConsole();
+    favouriteList = await databaseService.getAllFavouritesFromDb();
 
     setState(() {});
   }
@@ -49,7 +53,6 @@ class HomeViewState extends State<HomeView> {
         ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.start,
-        //crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisSize: MainAxisSize.max,
         children: [
           ElevatedButton(
@@ -69,7 +72,10 @@ class HomeViewState extends State<HomeView> {
           Expanded(
             child: SearchList(rates: rateList)
           ),
-          //FavouriteList(rates: historyList),
+          Text("History"),
+          Expanded(
+            child: HistoryList(rates: historyList)
+          ),
           ElevatedButton(
             child: const Text('Favourites Page',
             style: TextStyle(fontSize: 30.0),
@@ -148,4 +154,3 @@ class HomeViewState extends State<HomeView> {
   }
 }
 
-//Navigator.push(context, MaterialPageRoute(builder: (context) => FavouriteViewState()));

@@ -47,7 +47,7 @@ class _SearchListState extends State<SearchList> {
             actions: <CardActionButton>[
             CardActionButton(
               label: 'Favourite',
-              icon: Icon(
+              icon: const Icon(
                 Icons.star_border_outlined,
                 color: Colors.blue ),
                 onPress:  () async {
@@ -78,7 +78,7 @@ class _SearchListState extends State<SearchList> {
         );
       List<Rate> favouriteList = await databaseService.getAllFavouritesFromDb();
         print("search list: $favouriteList");
-        await databaseService.printAllRatesInDbToConsole();
+        await databaseService.printAllFavouritesInDbToConsole();
       //SetState((){});
     } catch (e) {
       print('SearchView favouriteRate catch: $e');
